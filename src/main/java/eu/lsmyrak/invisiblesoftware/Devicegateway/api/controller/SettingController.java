@@ -7,17 +7,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRoleByIdQueryHandler;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRolebyIdQuery;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.dtos.RoleDto;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.CommandHistory;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.CommandHistoryRepository;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/settings")
 public class SettingController {
 
-    private final CommandHistoryRepository commandHistoryRepository;    
+    private final CommandHistoryRepository commandHistoryRepository;
+    private final GetRoleByIdQueryHandler getRoleByIdQueryHandler;
 
-    public SettingController(CommandHistoryRepository commandHistoryRepository) {
+    public SettingController(CommandHistoryRepository commandHistoryRepository,GetRoleByIdQueryHandler getRoleByIdQueryHandler) { 
         this.commandHistoryRepository = commandHistoryRepository;
+        this.getRoleByIdQueryHandler = getRoleByIdQueryHandler;
     }
 
     @PostMapping("seed-data")
@@ -26,8 +32,9 @@ public class SettingController {
     }
 
     @GetMapping("role/{id}")
-    public String getRoleById() {
-        return "role-by-id";
+    public RoleDto getRoleById(@RequestBody GetRolebyIdQuery query) {
+
+        return getRoleByIdQueryHandler.handle(query);
 
     }
 
@@ -53,7 +60,7 @@ public class SettingController {
 
     }
    
-    @GetMapping("commandHistory")
+    @GetMapping("command-history")
     public List<CommandHistory> commandHistory() {
     return  commandHistoryRepository.findAll();
     }
