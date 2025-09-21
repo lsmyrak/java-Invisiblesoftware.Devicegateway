@@ -2,12 +2,14 @@ package eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.queries;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.RoomRepository;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupColumn;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameRelatedDto;
 
+@Component
 public class GetRoomsLookupQueryHandler {
 
     private final RoomRepository roomRepository;

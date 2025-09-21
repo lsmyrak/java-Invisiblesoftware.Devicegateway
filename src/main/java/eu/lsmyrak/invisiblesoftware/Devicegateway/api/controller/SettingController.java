@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command.SeedDataCommand;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command.SeedDataCommandHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRoleByIdQueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRolebyIdQuery;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.dtos.RoleDto;
@@ -20,15 +22,17 @@ public class SettingController {
 
     private final CommandHistoryRepository commandHistoryRepository;
     private final GetRoleByIdQueryHandler getRoleByIdQueryHandler;
+    private final SeedDataCommandHandler seedDataCommandHandler;
 
-    public SettingController(CommandHistoryRepository commandHistoryRepository,GetRoleByIdQueryHandler getRoleByIdQueryHandler) { 
+    public SettingController(CommandHistoryRepository commandHistoryRepository,GetRoleByIdQueryHandler getRoleByIdQueryHandler,SeedDataCommandHandler seedDataCommandHandler) { 
         this.commandHistoryRepository = commandHistoryRepository;
         this.getRoleByIdQueryHandler = getRoleByIdQueryHandler;
+        this.seedDataCommandHandler = seedDataCommandHandler;
     }
 
     @PostMapping("seed-data")
-    public String seedData() {
-        return "seed-data";
+    public void seedData() {
+        seedDataCommandHandler.handle(new SeedDataCommand());
     }
 
     @GetMapping("role/{id}")
