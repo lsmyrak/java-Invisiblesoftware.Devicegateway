@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -12,7 +13,8 @@ public class Device extends DeviceBase {
     private String ipAddress;
     @OneToMany
     private List<MqttPayloadOrder> mqttPayloadOrders = new ArrayList<>();
-    @OneToMany
+    
+    @ManyToMany(mappedBy = "devices")
     private List<DeviceGroup> deviceGroups = new ArrayList<>();
     
     @ManyToOne
