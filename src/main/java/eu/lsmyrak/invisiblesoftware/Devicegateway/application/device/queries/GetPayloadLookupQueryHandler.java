@@ -26,7 +26,7 @@ private final MqttPayloadRepository  mqttPayloadRepository;
         columns.add(new LookupColumn("code", "Code", true));
 
         List<NameCodeRelatedDto> data = mqttPayloadRepository.findAll().stream()
-                .map(p -> new NameCodeRelatedDto(p.getId(), p.getName(), p.getCode()))
+                .map(p -> new NameCodeRelatedDto(p.getId(), p.getCommandName(), p.getDisplayCommandName()))
                 .toList();
                 
         return new LookupResponse<>(columns, data);

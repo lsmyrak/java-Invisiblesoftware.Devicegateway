@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +16,12 @@ import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.Ad
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.AddDeviceGroupCommandHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.AddDeviceTypeCommand;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.AddDeviceTypeCommandHandler;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.ExecuteCommandHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.queries.*;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.queries.dtos.AccessibleDeviceWithRoomDto;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameCodeRelatedDto;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameRelatedDto;
-
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -34,6 +35,7 @@ public class DeviceController {
         private final GetRoomsLookupQueryHandler getyRoomsLookupQueryHandler;
         private final GetPayloadLookupQueryHandler getPayloadLookupQueryHandler;
         private final AddDeviceGroupCommandHandler addDeviceGroupCommandHandler;
+        private final ExecuteCommandHandler executeCommandHandler;
 
         @Autowired
         public DeviceController(
@@ -43,7 +45,8 @@ public class DeviceController {
                         GetDeviceGroupLookupQueryHandler getDeviceGroupQueryHandler,
                         GetRoomsLookupQueryHandler getyRoomsLookupQueryHandler,
                         GetPayloadLookupQueryHandler getPayloadLookupQueryHandler,
-                        AddDeviceGroupCommandHandler addDeviceGroupCommandHandler) {
+                        AddDeviceGroupCommandHandler addDeviceGroupCommandHandler,
+                        ExecuteCommandHandler executeCommandHandler) {
                 this.getAccessibleDevicesWithRoomsQueryHandler = getAccessibleDevicesWithRoomsQueryHandler;
                 this.addDeviceTypeCommandHandler = addDeviceTypeCommandHandler;
                 this.getDeviceTypeQueryHandler = getDeviceTypeQueryHandler;
@@ -51,6 +54,7 @@ public class DeviceController {
                 this.getyRoomsLookupQueryHandler = getyRoomsLookupQueryHandler;
                 this.getPayloadLookupQueryHandler = getPayloadLookupQueryHandler;
                 this.addDeviceGroupCommandHandler = addDeviceGroupCommandHandler;
+                this.executeCommandHandler = executeCommandHandler;
 
         }
 
@@ -75,6 +79,11 @@ public class DeviceController {
                 UUID userId = UUID.randomUUID();
 
                 return getAccessibleDevicesWithRoomsQueryHandler.handle(new GetAccessibleDevicesWithRoomsQuery(userId));
+        }
+
+        @PostMapping("execute-command/{payloadId}")
+        public void executeCommand(@PathVariable UUID payloadId) {
+                executeCommandHandler.handle(payloadId);
         }
 
         @GetMapping("lookup-device-type")

@@ -1,13 +1,13 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-
 
 @Entity
 public class ApplicationUser extends BaseAggregate {
@@ -16,17 +16,12 @@ public class ApplicationUser extends BaseAggregate {
     private String userName;
 
     @Column(unique = true)
-    private String email;    
+    private String email;
     private String passwordHash;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "role_user",
-        joinColumns = @JoinColumn(name = "aplication_user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-
-    private List<Role> roles = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "aplication_user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public String getUserName() {
         return userName;
@@ -44,7 +39,6 @@ public class ApplicationUser extends BaseAggregate {
         this.email = email;
     }
 
-
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -53,16 +47,12 @@ public class ApplicationUser extends BaseAggregate {
         this.passwordHash = passwordHash;
     }
 
-
-    public List<Role> getRole() {
+    public Set<Role> getRole() {
         return roles;
     }
 
-    public void setRole(List<Role> roles) {
+    public void setRole(Set<Role> roles) {
         this.roles = roles;
     }
 
-    
-
-  
 }

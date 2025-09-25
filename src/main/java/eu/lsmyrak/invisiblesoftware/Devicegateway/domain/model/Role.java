@@ -1,8 +1,7 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -11,16 +10,16 @@ import jakarta.persistence.ManyToMany;
 public class Role extends BaseAggregate {
     
     @ManyToMany(mappedBy = "roles")
-    private List<ApplicationUser> applicationUsers = new ArrayList<>();    
+    private Set<ApplicationUser> applicationUsers = new HashSet<>();
 
     public Role() {        
     }
 
-    public List<ApplicationUser> getApplicationUsers() {
+    public Set<ApplicationUser> getApplicationUsers() {
         return this.applicationUsers;
     }
 
-    public void setApplicationUsers(List<ApplicationUser> applicationUsers) {
+    public void setApplicationUsers(Set<ApplicationUser> applicationUsers) {
         this.applicationUsers = applicationUsers;
     }
 
