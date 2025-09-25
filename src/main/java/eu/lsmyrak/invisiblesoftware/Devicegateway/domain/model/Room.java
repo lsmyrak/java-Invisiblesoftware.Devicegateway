@@ -1,7 +1,7 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -15,10 +15,10 @@ public class Room extends BaseAggregate {
     private Place place;
 
     @OneToMany(mappedBy = "room")
-    private List<Device> devices = new ArrayList<>();
+    private Set<Device> devices = new HashSet<>();
 
     @OneToMany
-    private List<ApplicationUser> applicationUsers = new ArrayList<>();
+    private Set<ApplicationUser> applicationUsers = new HashSet<>();
 
     public Room() {
     }
@@ -31,19 +31,19 @@ public class Room extends BaseAggregate {
         this.place = place;
     }
 
-    public List<Device> getDevices() {
+    public Set<Device> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(Set<Device> devices) {
         this.devices = devices;
     }
 
-    public List<ApplicationUser> getApplicationUsers() {
+    public Set<ApplicationUser> getApplicationUsers() {
         return applicationUsers;
     }
 
-    public void setApplicationUsers(List<ApplicationUser> applicationUsers) {
+    public void setApplicationUsers(Set<ApplicationUser> applicationUsers) {
         this.applicationUsers = applicationUsers;
     }
 

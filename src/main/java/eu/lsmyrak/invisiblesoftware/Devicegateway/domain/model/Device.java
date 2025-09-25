@@ -1,8 +1,11 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -11,12 +14,13 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Device extends DeviceBase {
     private String ipAddress;
-    @OneToMany
-    private List<MqttPayloadOrder> mqttPayloadOrders = new ArrayList<>();
     
-    @ManyToMany(mappedBy = "devices")
-    private List<DeviceGroup> deviceGroups = new ArrayList<>();
-    
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<MqttPayloadOrder> mqttPayloadOrders = new HashSet<>();
+
+    @ManyToMany(mappedBy = "devices", fetch = FetchType.LAZY)
+    private Set<DeviceGroup> deviceGroups = new HashSet<>();
+
     @ManyToOne
     @JoinColumn(name = "room_Id")
     private Room room;
@@ -33,19 +37,19 @@ public class Device extends DeviceBase {
         this.ipAddress = ipAddress;
     }
 
-    public List<MqttPayloadOrder> getMqttPayloadOrders() {
+    public Set<MqttPayloadOrder> getMqttPayloadOrders() {
         return mqttPayloadOrders;
     }
 
-    public void setMqttPayloadOrders(List<MqttPayloadOrder> mqttPayloadOrders) {
+    public void setMqttPayloadOrders(Set<MqttPayloadOrder> mqttPayloadOrders) {
         this.mqttPayloadOrders = mqttPayloadOrders;
     }
 
-    public List<DeviceGroup> getDeviceGroups() {
+    public Set<DeviceGroup> getDeviceGroups() {
         return deviceGroups;
     }
 
-    public void setDeviceGroups(List<DeviceGroup> deviceGroups) {
+    public void setDeviceGroups(Set<DeviceGroup> deviceGroups) {
         this.deviceGroups = deviceGroups;
     }
 

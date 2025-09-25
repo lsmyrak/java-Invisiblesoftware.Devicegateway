@@ -78,6 +78,10 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public List<Device> getAccessibleDevicesWithRooms(UUID userId) {
         List<Device> devices = deviceRepository.findAccessibleDevicesWithRooms(userId);
+        if(devices == null) {
+            throw new EntityNotFoundException("No accessible devices found for user ID: " + userId);
+        }
+        
         return devices;
     }
 

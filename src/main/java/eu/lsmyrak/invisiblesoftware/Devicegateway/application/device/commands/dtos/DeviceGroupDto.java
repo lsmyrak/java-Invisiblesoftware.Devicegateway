@@ -2,18 +2,18 @@ package eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.d
 
 import java.util.ArrayList;
 import java.util.List;
-import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.Device;
+import java.util.UUID;
 
 public class DeviceGroupDto extends BaseDto{
 
-    private List<Device> devices = new ArrayList<>();
+    private List<UUID> deviceIds = new ArrayList<>();
     
-    public List<Device> getDevices() {
-        return devices;
+    public List<UUID> getDeviceIds() {
+        return deviceIds;
     }
 
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
+    public void setDevices(List<UUID> deviceIds) {
+        this.deviceIds = deviceIds;
     }
 
     public DeviceGroupDto() {

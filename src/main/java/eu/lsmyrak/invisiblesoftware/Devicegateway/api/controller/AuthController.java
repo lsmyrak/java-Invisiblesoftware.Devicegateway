@@ -4,12 +4,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.auth.command.dtos.LoginDto;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.auth.command.dtos.RegisterDto;
+
+import org.springframework.web.bind.annotation.RequestBody;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     @PostMapping("/login")
-    public String login() {
+    public String login(@RequestBody LoginDto loginDto) {
         return "tokken";
     }
 
@@ -19,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register() {
+    public String register(@RequestBody  RegisterDto registerDto) {
         return "register";
     }
 

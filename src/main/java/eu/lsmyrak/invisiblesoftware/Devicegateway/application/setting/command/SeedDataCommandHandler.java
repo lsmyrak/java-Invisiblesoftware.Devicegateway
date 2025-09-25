@@ -74,7 +74,8 @@ public class SeedDataCommandHandler {
             Room room = new Room();
             room.setName("Control room");
             room.setPlace(place);
-            room.setApplicationUsers(List.of(user));
+
+            room.setApplicationUsers(Set.of(user));
             roomRepository.save(room);
 
             Device smallBlindsDevice = new Device();

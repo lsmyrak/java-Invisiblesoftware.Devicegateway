@@ -10,4 +10,6 @@ public class RoleDto extends BaseDto{
         super.setName(name);
         super.setDescription(description);
     }
+    public RoleDto() {
+    }
 }
