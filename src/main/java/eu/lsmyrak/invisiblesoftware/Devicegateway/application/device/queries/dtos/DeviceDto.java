@@ -3,6 +3,9 @@ package eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.queries.dt
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.Device;
 
 public class DeviceDto  extends BaseDto {
     
@@ -16,7 +19,20 @@ public class DeviceDto  extends BaseDto {
     private String firmwareVersion;
     private LocalDateTime lastSeen;
 
-    
+    public static DeviceDto Convert(Device device)
+    {        
+        var dto =  new DeviceDto();
+        dto.setName(device.getName());
+        dto.setCode(device.getCode());
+        dto.setDescription(device.getDescription());
+        dto.setDeviceGroups(
+        device.getDeviceGroups().stream()
+        .map(DeviceGroupDto::Convert) 
+        .collect(Collectors.toList()));
+        
+        return dto;
+    }
+
     public String getIpAddress() {
         return ipAddress;
     }

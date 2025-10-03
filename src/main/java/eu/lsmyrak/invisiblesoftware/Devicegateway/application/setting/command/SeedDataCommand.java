@@ -1,5 +1,7 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command;
 
-public class SeedDataCommand {
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.Command;
+
+public class SeedDataCommand implements Command<Boolean>{
 
 }

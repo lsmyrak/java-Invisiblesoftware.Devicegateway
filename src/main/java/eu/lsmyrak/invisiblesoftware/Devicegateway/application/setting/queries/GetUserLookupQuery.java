@@ -1,5 +1,9 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries;
 
-public class GetUserLookupQuery {
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.Query;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameRelatedDto;
+
+public class GetUserLookupQuery implements Query<LookupResponse<NameRelatedDto>>{
 
 }

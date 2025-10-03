@@ -1,8 +1,12 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.queries;
 
+import java.util.List;
 import java.util.UUID;
 
-public class GetAccessibleDevicesWithRoomsQuery {
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.Query;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.queries.dtos.AccessibleDeviceWithRoomDto;
+
+public class GetAccessibleDevicesWithRoomsQuery implements Query< List<AccessibleDeviceWithRoomDto>> {
     
     private UUID userId;
 

@@ -7,16 +7,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.CommandBus;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.QueryBus;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command.AddRoleCommand;
-import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command.AddRoleCommandHandler;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command.EditUserCommand;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command.SeedDataCommand;
-import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command.SeedDataCommandHandler;
-import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRoleByIdQueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRoleLookupQuery;
-import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRoleLookupQueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetRolebyIdQuery;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetUserLookupQuery;
-import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.GetUserLookupQueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.queries.dtos.RoleDto;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.CommandHistory;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.CommandHistoryRepository;
@@ -29,58 +27,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class SettingController {
 
     private final CommandHistoryRepository commandHistoryRepository;
-    private final GetRoleByIdQueryHandler getRoleByIdQueryHandler;
-    private final SeedDataCommandHandler seedDataCommandHandler;
-    private final AddRoleCommandHandler addRoleCommandHandler;
+    private final CommandBus commandBus;
+    private final QueryBus queryBus;
 
-    private final GetRoleLookupQueryHandler getRoleLookupQueryHandler;
-    private final GetUserLookupQueryHandler getUserLookupQueryHandler;
-
-    public SettingController(CommandHistoryRepository commandHistoryRepository,
-            GetRoleByIdQueryHandler getRoleByIdQueryHandler,
-            SeedDataCommandHandler seedDataCommandHandler,
-            AddRoleCommandHandler addRoleCommandHandler,
-            GetRoleLookupQueryHandler getRoleLookupQueryHandler,
-            GetUserLookupQueryHandler getUserLookupQueryHandler) {
+    public SettingController(CommandHistoryRepository commandHistoryRepository, CommandBus commandBus,
+            QueryBus queryBus) {
         this.commandHistoryRepository = commandHistoryRepository;
-        this.getRoleByIdQueryHandler = getRoleByIdQueryHandler;
-        this.seedDataCommandHandler = seedDataCommandHandler;
-        this.addRoleCommandHandler = addRoleCommandHandler;
-        this.getRoleLookupQueryHandler = getRoleLookupQueryHandler;
-        this.getUserLookupQueryHandler = getUserLookupQueryHandler;
+        this.commandBus = commandBus;
+        this.queryBus = queryBus;
     }
 
     @PostMapping("seed-data")
     public void seedData() {
-        seedDataCommandHandler.handle(new SeedDataCommand());
+        commandBus.execute(new SeedDataCommand());
     }
 
     @GetMapping("role/{id}")
     public RoleDto getRoleById(@RequestBody GetRolebyIdQuery query) {
 
-        return getRoleByIdQueryHandler.handle(query);
-
+        return queryBus.execute(query);
     }
 
     @PostMapping("add-role")
     public void addRole(@RequestBody AddRoleCommand command) {
-        addRoleCommandHandler.handle(command);
+        commandBus.execute(command);
     }
 
     @PostMapping("user-role-management")
-    public String userRoleManagement() {
-        return "user-role-management";
-
+    public Void userRoleManagement(@RequestBody EditUserCommand command) {
+       return commandBus.execute(command);       
     }
 
     @GetMapping("lookup-role")
     public LookupResponse<NameRelatedDto> lookupRole() {
-        return getRoleLookupQueryHandler.handle(new GetRoleLookupQuery());
+        return queryBus.execute(new GetRoleLookupQuery());
     }
 
     @GetMapping("lookup-user")
     public LookupResponse<NameRelatedDto> lookupUser() {
-        return getUserLookupQueryHandler.handle(new GetUserLookupQuery());
+        return queryBus.execute(new GetUserLookupQuery());
     }
 
     @GetMapping("command-history")

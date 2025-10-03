@@ -1,8 +1,9 @@
 package eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.Command;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.dtos.DeviceTypeDto;
 
-public class AddDeviceTypeCommand {
+public class AddDeviceTypeCommand implements Command<Boolean>{
     
     private DeviceTypeDto deviceType;
 

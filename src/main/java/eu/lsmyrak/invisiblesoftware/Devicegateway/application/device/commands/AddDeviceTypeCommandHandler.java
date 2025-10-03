@@ -3,11 +3,12 @@ package eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.CommandHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.DeviceType;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.DeviceTypeRepository;
 
 @Component
-public class AddDeviceTypeCommandHandler {
+public class AddDeviceTypeCommandHandler implements CommandHandler<AddDeviceTypeCommand,Boolean> {
 
     private final DeviceTypeRepository deviceTypeRepository;
     
@@ -15,7 +16,8 @@ public class AddDeviceTypeCommandHandler {
     public AddDeviceTypeCommandHandler(DeviceTypeRepository deviceTypeRepository) {
         this.deviceTypeRepository = deviceTypeRepository;        
     }
-    public void handle(AddDeviceTypeCommand command) {
+    @Override
+    public Boolean handle(AddDeviceTypeCommand command) {
         var dto = command.getDeviceType();
         DeviceType newDeviceType = new DeviceType();
         newDeviceType.setCategory(dto.getCategory());
@@ -29,5 +31,6 @@ public class AddDeviceTypeCommandHandler {
         newDeviceType.setDeleted(false);
         newDeviceType.setVersion(1);
         deviceTypeRepository.save(newDeviceType);
+        return true;
     }
 }

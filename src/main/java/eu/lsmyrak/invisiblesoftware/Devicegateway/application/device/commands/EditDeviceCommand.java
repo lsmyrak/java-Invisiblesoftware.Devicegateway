@@ -3,15 +3,15 @@ package eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.Command;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.device.commands.dtos.DeviceDto;
 
-public class AddDeviceCommand implements Command<Void>{
-    private DeviceDto deviceDto;
+public class EditDeviceCommand implements Command<Void>{
+    private DeviceDto devicedto;
 
-    public DeviceDto getDeviceDto() {
-        return deviceDto;
+    public DeviceDto getDevicedto() {
+        return devicedto;
     }
 
-    public void setDeviceDto(DeviceDto deviceDto) {
-        this.deviceDto = deviceDto;
+    public void setDevicedto(DeviceDto devicedto) {
+        this.devicedto = devicedto;
     }
 
     

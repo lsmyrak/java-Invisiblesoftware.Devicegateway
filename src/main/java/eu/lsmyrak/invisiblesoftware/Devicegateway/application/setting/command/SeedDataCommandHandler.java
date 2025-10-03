@@ -2,6 +2,7 @@ package eu.lsmyrak.invisiblesoftware.Devicegateway.application.setting.command;
 
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.*;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.*;
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.CommandHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.application.auth.command.dtos.RegisterDto;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Component
-public class SeedDataCommandHandler {
+public class SeedDataCommandHandler implements CommandHandler<SeedDataCommand, Boolean>{
 
     private final DeviceTypeRepository deviceTypeRepository;
     private final PlaceRepository placeRepository;
@@ -44,7 +45,7 @@ public class SeedDataCommandHandler {
     }
 
     @Transactional
-    public void handle(SeedDataCommand command) {
+    public Boolean handle(SeedDataCommand command) {
         if (deviceTypeRepository.count() == 0) {
         
             RegisterDto registerUser = new RegisterDto();
@@ -133,6 +134,7 @@ public class SeedDataCommandHandler {
             addPayloadOrders(largeBlindsPayloads, largeBlindsDevice);
             addPayloadOrders(lightPayloads, lightDevice);
         }
+        return true;
     }
 
     private MqttPayload createPayload(String commandName, String displayName, String topic, String payload, Device device) {

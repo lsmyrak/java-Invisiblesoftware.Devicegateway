@@ -7,13 +7,14 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.CommandHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.Device;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.model.DeviceGroup;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.DeviceGroupRepository;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.DeviceRepository;
 
 @Component
-public class AddDeviceGroupCommandHandler {
+public class AddDeviceGroupCommandHandler implements CommandHandler<AddDeviceGroupCommand,Boolean>{
 
     @Autowired
     private final DeviceGroupRepository deviceGroupRepository;
@@ -24,8 +25,8 @@ public class AddDeviceGroupCommandHandler {
         this.deviceGroupRepository = deviceGroupRepository;
         this.deviceRepository = deviceRepositroy;
     }
-
-    public void handle(AddDeviceGroupCommand command) {
+    @Override
+    public Boolean handle(AddDeviceGroupCommand command) {
 
         var dto = command.getDeviceGroup();
         DeviceGroup deviceGroup = new DeviceGroup();
@@ -51,6 +52,6 @@ public class AddDeviceGroupCommandHandler {
             deviceGroup.setDevicess(devicesSet);
         }
         deviceGroupRepository.save(deviceGroup);
-
+    return true;
     }
 }

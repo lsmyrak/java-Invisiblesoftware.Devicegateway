@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.QueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.MqttPayloadRepository;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupColumn;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameCodeRelatedDto;
 
 @Component
-public class GetPayloadLookupQueryHandler {
+public class GetPayloadLookupQueryHandler implements QueryHandler<GetPayloadLookupQuery,LookupResponse<NameCodeRelatedDto>>{
 @Autowired
 private final MqttPayloadRepository  mqttPayloadRepository;
     public GetPayloadLookupQueryHandler(MqttPayloadRepository mqttPayloadRepository) {
         this.mqttPayloadRepository = mqttPayloadRepository;
     }
-
+    @Override
     public LookupResponse<NameCodeRelatedDto> handle(GetPayloadLookupQuery query) {
         
         List<LookupColumn> columns = new ArrayList<>();

@@ -6,20 +6,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.QueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.DeviceTypeRepository;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupColumn;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameCodeRelatedDto;
 
 @Component
-public class GetDeviceTypeLookupQueryHandler {
+public class GetDeviceTypeLookupQueryHandler implements QueryHandler<GetDeviceTypeLookupQuery,LookupResponse<NameCodeRelatedDto>>{
 
     private final DeviceTypeRepository deviceTypeRepository;
     @Autowired
     public GetDeviceTypeLookupQueryHandler(DeviceTypeRepository deviceTypeRepository) {
         this.deviceTypeRepository = deviceTypeRepository;
     }
-
+    @Override
     public LookupResponse<NameCodeRelatedDto> handle(GetDeviceTypeLookupQuery query) {
         
         List<LookupColumn> columns = new ArrayList<>();

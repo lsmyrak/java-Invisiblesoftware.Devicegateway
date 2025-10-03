@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.QueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.RoleRepository;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupColumn;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameRelatedDto;
 
 @Component
-public class GetRoleLookupQueryHandler {
+public class GetRoleLookupQueryHandler implements QueryHandler<GetRoleLookupQuery,LookupResponse<NameRelatedDto>>{
     private final RoleRepository roleRepository;
     
     public GetRoleLookupQueryHandler(RoleRepository  roleRepository) {

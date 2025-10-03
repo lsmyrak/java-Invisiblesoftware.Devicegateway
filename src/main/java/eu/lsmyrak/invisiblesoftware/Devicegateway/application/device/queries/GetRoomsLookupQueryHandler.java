@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.QueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.RoomRepository;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupColumn;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameRelatedDto;
 
 @Component
-public class GetRoomsLookupQueryHandler {
+public class GetRoomsLookupQueryHandler implements QueryHandler<GetRoomsLookupQuery,LookupResponse<NameRelatedDto>> {
 
     private final RoomRepository roomRepository;
     public GetRoomsLookupQueryHandler(RoomRepository roomRepository) {

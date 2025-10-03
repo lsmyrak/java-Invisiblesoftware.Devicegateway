@@ -5,19 +5,20 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import eu.lsmyrak.invisiblesoftware.Devicegateway.CQRS.QueryHandler;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.domain.repository.ApplicationUserRepository;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupColumn;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.LookupResponse;
 import eu.lsmyrak.invisiblesoftware.Devicegateway.dto.common.NameRelatedDto;
 
 @Component
-public class GetUserLookupQueryHandler {
+public class GetUserLookupQueryHandler implements QueryHandler<GetUserLookupQuery,LookupResponse<NameRelatedDto>> {
     private final ApplicationUserRepository applicationUserRepository;
 
     public GetUserLookupQueryHandler(ApplicationUserRepository applicationUserRepository) {
         this.applicationUserRepository = applicationUserRepository;
     }
-
+    @Override
     public LookupResponse<NameRelatedDto> handle(GetUserLookupQuery query){
         List<LookupColumn> columns  = new ArrayList<>();
         columns.add(new LookupColumn("id","ID",false));
